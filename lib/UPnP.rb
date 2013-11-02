@@ -8,7 +8,6 @@
 # License:: LGPL
 
 require 'MiniUPnP'
-include ObjectSpace
 
 module UPnP
     
@@ -129,10 +128,10 @@ module UPnP
             if @list == nil then
                 raise UPnPException.new,"No UPNP Device Found"
             end
-            define_finalizer(@list,proc {|o| MiniUPnP.freeUPNPDevlist(o)})
+            ObjectSpace.define_finalizer(@list,proc {|o| MiniUPnP.freeUPNPDevlist(o)})
             
             @urls = MiniUPnP::UPNPUrls.new
-            define_finalizer(@urls,proc {|o| MiniUPnP.FreeUPNPUrls(o)})
+            ObjectSpace.define_finalizer(@urls,proc {|o| MiniUPnP.FreeUPNPUrls(o)})
             @data = MiniUPnP::IGDdatas.new
             @lan = getCString()
 
